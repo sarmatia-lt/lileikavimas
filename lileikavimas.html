@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lileikavimas — Sarmatiškas būdas eilėDarai</title>
+  <style>
+    :root{
+      --bg:#f5f1e8;
+      --panel:#fffdf8;
+      --ink:#201b14;
+      --muted:#74695e;
+      --line:#dad2c5;
+      --accent:#006b70;
+      --accent2:#8b6c24;
+      --soft:#efe8dc;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Georgia,serif;background:linear-gradient(180deg,#f7f3ec,#eee5d9);color:var(--ink)}
+    .wrap{max-width:1280px;margin:0 auto;padding:24px;display:grid;grid-template-columns:360px 1fr;gap:24px}
+    .panel{background:rgba(255,253,248,.95);border:1px solid var(--line);border-radius:18px;padding:24px;box-shadow:0 10px 30px rgba(0,0,0,.06)}
+    h1,h2,h3{margin:0 0 16px}
+    p{line-height:1.6}
+    textarea,select{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--ink);font:inherit}
+    textarea{min-height:130px;resize:vertical}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .stack{display:grid;gap:16px}
+    button{border:none;background:var(--accent);color:#fff;padding:12px 16px;border-radius:12px;font-weight:700;cursor:pointer;transition:all 0.2s}
+    button:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,107,112,.2)}
+    button.secondary{background:var(--accent2)}
+    button.ghost{background:#ece3d7;color:#3d2f22}
+    .toolbar{display:flex;gap:10px;flex-wrap:wrap}
+    .hint{font-size:14px;color:var(--muted);margin-top:6px}
+    .output{white-space:pre-wrap;font-size:20px;line-height:1.75;background:#fff;border:1px solid var(--line);border-radius:16px;padding:24px;min-height:560px}
+    .badge{display:inline-block;padding:5px 10px;border-radius:999px;background:var(--soft);color:#4f4334;font-size:13px;margin:0 6px 6px 0}
+    .sample-list button{width:100%;text-align:left;background:#f2eadf;color:#2b241c;padding:10px 12px;border-radius:10px}
+    .sample-list button:hover{background:#e8dece}
+    .footer{text-align:center;margin-top:32px;color:var(--muted);font-size:14px}
+    .footer a{color:var(--accent);text-decoration:none}
+    .footer a:hover{text-decoration:underline}
+    .hero{font-size:15px;color:var(--muted)}
+    .hl{color:var(--accent);font-weight:700}
+    @media (max-width:980px){.wrap{grid-template-columns:1fr}.output{min-height:400px}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <aside class="panel stack">
+      <div>
+        <h1>Lileikavimas — Sarmatiškas būdas eilėdarai</h1>
+        <p class="hero">Fraktalinis-poetinis generatorius, paremtas Sarmatiška Esatis 1.0 ontologija. Vieną sėklos eilutę paverčia ritmingu semantiniu lauku per sukimą, mutaciją ir prasmių virsmą.</p>
+      </div>
+
+      <div>
+        <label for="seed"><b>Sėklos eilutė</b></label>
+        <textarea id="seed">Laikas tyliai auga proto link šviesa tarp pasaulių per atminties slenksčius</textarea>
+        <div class="hint">Geriausiai veikia su 9 žodžiais 9×9 režime.</div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label for="size"><b>Struktūra</b></label>
+          <select id="size">
+            <option value="3">3 × 3</option>
+            <option value="6">6 × 6</option>
+            <option value="9" selected>9 × 9</option>
+            <option value="12">12 × 12</option>
+          </select>
+        </div>
+        <div>
+          <label for="caps"><b>Vidurinės didžiosios raidės</b></label>
+          <select id="caps">
+            <option value="0">Išjungta</option>
+            <option value="1">Silpna</option>
+            <option value="2" selected>Vidutinė</option>
+            <option value="3">Stipri</option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <label for="joiners"><b>Leisti jungiamuosius žodžius</b></label>
+        <select id="joiners">
+          <option value="no">Ne</option>
+          <option value="yes" selected>Taip</option>
+        </select>
+      </div>
+
+      <div class="toolbar">
+        <button id="generateBtn">Generuoti Lileikavimą</button>
+        <button class="secondary" id="shuffleBtn">Nauja variacija</button>
+        <button class="ghost" id="copyBtn">Kopijuoti</button>
+      </div>
+
+      <div>
+        <h3>Pavyzdinės 9×9 sėklos</h3>
+        <div class="sample-list stack">
+          <button data-seed="Laikas tyliai auga proto link šviesa tarp pasaulių per atminties slenksčius">Laikas tyliai auga proto link šviesa tarp pasaulių per atminties slenksčius</button>
+          <button data-seed="Šviesa atsiverdama vidun atveria kalbą po tyliomis tapsmo ratų">Šviesa atsiverdama vidun atveria kalbą po tyliomis tapsmo ratų</button>
+        </div>
+      </div>
+
+      <p class="hint">
+        Sukūrė <span class="hl">Aivaras Lileika</span> — Esatis 1.0 / Sarmatiškos ontologijos dalis.
+      </p>
+    </aside>
+
+    <main class="panel">
+      <h2>Sugeneruotas Lileikavimas</h2>
+      <div id="output" class="output"></div>
+    </main>
+  </div>
+
+  <div class="footer">
+    <p>
+      <a href="https://www.patreon.com/AivarasLileika" target="_blank">Palaikyti Patreon</a> • 
+      <a href="https://x.com/Sarmatia" target="_blank">Sekti X @Sarmatia</a><br>
+      Esatis 1.0 (CC BY-SA 4.0)
+    </p>
+  </div>
+
+  <script>
+    // Tas pats funkcionalumas kaip angliškoje versijoje (pritaikytas lietuviškai)
+    const seedEl = document.getElementById('seed');
+    const sizeEl = document.getElementById('size');
+    const capsEl = document.getElementById('caps');
+    const joinersEl = document.getElementById('joiners');
+    const outputEl = document.getElementById('output');
+    const generateBtn = document.getElementById('generateBtn');
+    const shuffleBtn = document.getElementById('shuffleBtn');
+    const copyBtn = document.getElementById('copyBtn');
+    const sampleButtons = document.querySelectorAll('[data-seed]');
+
+    const joinerPool = ['ir','per','tarp','po','su','be'];
+    let variantSeed = 0;
+
+    function mulberry32(a){return function(){let t=a+=0x6D2B79F5;t=Math.imul(t^t>>>15,t|1);t^=t+Math.imul(t^t>>>7,t|61);return ((t^t>>>14)>>>0)/4294967296;}}
+    function cleanWords(text){ return text.replace(/[.,!?;:()\[\]"“”]/g,' ').split(/\s+/).map(w=>w.trim()).filter(Boolean); }
+    function capitalizeMiddle(word, rng){
+      if (word.length < 4) return word;
+      const letters = [...word];
+      const positions = [];
+      for (let i = 1; i < letters.length - 1; i++) if (/[a-zA-Ząčęėįšųūž]/i.test(letters[i])) positions.push(i);
+      if (!positions.length) return word;
+      const idx = positions[Math.floor(rng() * positions.length)];
+      letters[idx] = letters[idx].toUpperCase();
+      return letters.join('');
+    }
+    function morphWord(word, intensity, rng){
+      let out = word;
+      if (intensity > 0 && rng() < intensity * 0.24) out = capitalizeMiddle(out, rng);
+      if (intensity > 1 && rng() < 0.12 && out.length > 5) out = out + (rng() < 0.5 ? 'imas' : 'ėjimas');
+      return out;
+    }
+    function rotate(arr, n){ const k = ((n % arr.length) + arr.length) % arr.length; return arr.slice(k).concat(arr.slice(0, k)); }
+
+    function buildLine(baseWords, lineIndex, size, capsIntensity, allowJoiners, rng){
+      let words = rotate(baseWords, lineIndex);
+      if (lineIndex % 2 === 1) {
+        const swapped = [...words];
+        for (let i = 1; i < swapped.length - 1; i += 3) {
+          const j = Math.min(i + 1, swapped.length - 1);
+          [swapped[i], swapped[j]] = [swapped[j], swapped[i]];
+        }
+        words = swapped;
+      }
+      words = words.slice(0, size).map(w => morphWord(w, capsIntensity, rng));
+      if (allowJoiners && rng() < 0.34 && words.length >= 5) {
+        const pos = 1 + Math.floor(rng() * (words.length - 2));
+        words[pos] = joinerPool[Math.floor(rng() * joinerPool.length)];
+      }
+      while (words.length < size) words.push(morphWord(baseWords[words.length % baseWords.length], capsIntensity, rng));
+      return words.join(' ');
+    }
+
+    function generate(){
+      const allWords = cleanWords(seedEl.value);
+      const size = parseInt(sizeEl.value, 10);
+      const caps = parseInt(capsEl.value, 10);
+      const allowJoiners = joinersEl.value === 'yes';
+      if (allWords.length < 3) {
+        outputEl.textContent = 'Įveskite bent 3 žodžius.';
+        return;
+      }
+      const baseWords = allWords.slice(0, size);
+      const rng = mulberry32(baseWords.join('').length * 29 + variantSeed * 97 + size * 19 + caps * 11);
+      const lines = [];
+      lines.push('Sėklos eilutė:');
+      lines.push(baseWords.join(' '));
+      lines.push('');
+      lines.push(size + '×' + size + ' Lileikavimas');
+      lines.push('');
+      for (let i = 0; i < size; i++) {
+        const firstWord = morphWord(baseWords[i % baseWords.length], caps, rng);
+        const line = buildLine(baseWords, i, size, caps, allowJoiners, rng);
+        const adjusted = line.split(' ');
+        adjusted[0] = firstWord;
+        lines.push((i + 1) + '. ' + adjusted.join(' '));
+      }
+      lines.push('');
+      lines.push('— Sukurta su Lileikavimu • Aivaras Lileika');
+      outputEl.textContent = lines.join('\n');
+    }
+
+    generateBtn.addEventListener('click', generate);
+    shuffleBtn.addEventListener('click', () => { variantSeed++; generate(); });
+    copyBtn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(outputEl.textContent);
+        const original = copyBtn.textContent;
+        copyBtn.textContent = '✓ Nukopijuota!';
+        setTimeout(() => copyBtn.textContent = original, 1500);
+      } catch (e) { copyBtn.textContent = 'Nepavyko'; setTimeout(() => copyBtn.textContent = 'Kopijuoti', 1500); }
+    });
+
+    sampleButtons.forEach(btn => btn.addEventListener('click', () => {
+      seedEl.value = btn.dataset.seed;
+      variantSeed = 0;
+      generate();
+    }));
+
+    generate();
+  </script>
+</body>
+</html>
