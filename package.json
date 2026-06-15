@@ -1,0 +1,23 @@
+{
+  "name": "lileikavimas",
+  "version": "1.0.0",
+  "description": "Fraktalinis-poetinis generatorius, paremtas Sarmatiška Esatis 1.0 ontologija",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"No tests specified\" && exit 0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sarmatia-lt/lileikavimas.git"
+  },
+  "keywords": [
+    "poetry",
+    "generator",
+    "lithuanian"
+  ],
+  "author": "Aivaras Lileika",
+  "license": "CC-BY-SA-4.0",
+  "dependencies": {
+    "@vercel/speed-insights": "^2.0.0"
+  }
+}
